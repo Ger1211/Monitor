@@ -1,9 +1,9 @@
 const rp = require("request-promise");
-const logging = (() => {
+const unqfy = (() => {
 
   function check() {
     const options = {
-      url: `http://localhost:3002/api/status`,
+      url: `http://localhost:8080/api/status`,
     };
     return rp.get(options);
   }
@@ -13,4 +13,4 @@ const logging = (() => {
   };
 })();
 
-module.exports = logging;
+module.exports = unqfy;

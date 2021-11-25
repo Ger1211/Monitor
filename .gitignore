@@ -352,3 +352,5 @@ MigrationBackup/
 .vscode
 
 data.json
+
+credentials.json

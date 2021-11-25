@@ -1,26 +1,14 @@
 const rp = require("request-promise");
 const newsletter = (() => {
-  function notify(data) {
+  function check() {
     const options = {
-      url: `http://localhost:3001/api/notify`,
-      body: data,
-      json: true,
+      url: `http://localhost:3001/api/status`,
     };
-    return rp.post(options);
-  }
-
-  function deleteSubscriptions(data) {
-    const options = {
-      url: `http://localhost:3001/api/subscriptions`,
-      body: data,
-      json: true,
-    };
-    return rp.delete(options);
+    return rp.get(options);
   }
 
   return {
-    notify: notify,
-    deleteSubscriptions: deleteSubscriptions,
+    check: check,
   };
 })();
 
