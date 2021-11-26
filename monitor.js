@@ -33,11 +33,11 @@ class Monitor {
   }
 
   startMonitoring() {
-    //this.monitoringUnqfy();
-   // setInterval(this.monitoringUnqfy(), 6000);  //6 segundos
+    this.monitoringUnqfy();
+    setInterval(this.monitoringUnqfy, 6000);  //6 segundos
     //this.monitoringLogging();
     //this.monitoringNewsletter();
-    setInterval(this.monitoringUnqfy(), 10000);
+    //this.monitoringUnqfy();
   }
 
   monitoringUnqfy() {
