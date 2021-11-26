@@ -13,9 +13,16 @@ class Monitor {
     this.newsletter = false;
   }
 
+  getStatus() {
+    return this.enable;
+  }
 
-  getStatus(){
-    return this.enable
+  statusServices() {
+    return {
+      UNQfy: this.unqfy ? "UP" : "DOWN",
+      Newsletter: this.newsletter ? "UP" : "DOWN",
+      Logging: this.logging ? "UP" : "DOWN",
+    };
   }
 
   turnOnOff() {
@@ -34,27 +41,26 @@ class Monitor {
 
   startMonitoring() {
     this.monitoringUnqfy();
-    setInterval(this.monitoringUnqfy, 6000);  //6 segundos
-    //this.monitoringLogging();
-    //this.monitoringNewsletter();
-    //this.monitoringUnqfy();
+    this.monitoringLogging();
+    this.monitoringNewsletter();
   }
 
   monitoringUnqfy() {
     if (this.enable) {
       this.monitorUnqfy();
+      setInterval(this.monitorUnqfy.bind(this), 10000);
     }
   }
   monitoringLogging() {
     if (this.enable) {
       this.monitorLogging();
-      setInterval(this.monitorLogging, 60000);
+      setInterval(this.monitorLogging.bind(this), 10000);
     }
   }
   monitoringNewsletter() {
     if (this.enable) {
       this.monitorNewsletter();
-      setInterval(this.monitorNewsletter, 60000);
+      setInterval(this.monitorNewsletter.bind(this), 10000);
     }
   }
 
@@ -64,7 +70,7 @@ class Monitor {
       .then(() => {
         if (!this.unqfy) {
           this.unqfy = true;
-          this.notifyDiscordUp("UNQfy")
+          this.notifyDiscordUp("UNQfy");
           this.save("data.json");
         }
       })
@@ -115,13 +121,17 @@ class Monitor {
 
   notifyDiscordUp(service) {
     discord.sendInfo({
-      content: `[${moment().format("HH:mm:SS")}] El servicio ${service} ha vuelto a la normalidad`,
+      content: `[${moment().format(
+        "HH:mm:SS"
+      )}] El servicio ${service} ha vuelto a la normalidad`,
     });
   }
 
   notifyDiscordDown(service) {
     discord.sendInfo({
-      content: `[${moment().format("HH:mm:SS")}] El servicio ${service} ha dejado de funcionar`,
+      content: `[${moment().format(
+        "HH:mm:SS"
+      )}] El servicio ${service} ha dejado de funcionar`,
     });
   }
 
