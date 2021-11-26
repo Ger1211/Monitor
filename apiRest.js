@@ -19,7 +19,16 @@ app.use(express.json());
 router.post("/turnOnOff", (req, res) => {
   const status = getMonitor().turnOnOff();
   res.status(201).send({ status: status });
-});
+})
+.get ("/getStatus", (req, res) => {
+  let statusApp = "";
+  if (getMonitor().getStatus()){
+    statusApp = "Enabled"
+  }else{
+    statusApp = "Disabled"
+  }
+  res.status(201).send({ status: statusApp });
+})
 
 function errorHandler(err, req, res, next) {
   if (err instanceof SyntaxError || err instanceof InvalidBodyError) {

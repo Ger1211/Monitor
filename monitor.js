@@ -8,9 +8,14 @@ const moment = require("moment");
 class Monitor {
   constructor() {
     this.enable = true;
-    this.unqfy = true;
-    this.logging = true;
-    this.newsletter = true;
+    this.unqfy = false;
+    this.logging = false;
+    this.newsletter = false;
+  }
+
+
+  getStatus(){
+    return this.enable
   }
 
   turnOnOff() {
@@ -28,15 +33,16 @@ class Monitor {
   }
 
   startMonitoring() {
-    this.monitoringUnqfy();
-    this.monitoringLogging();
-    this.monitoringNewsletter();
+    //this.monitoringUnqfy();
+   // setInterval(this.monitoringUnqfy(), 6000);  //6 segundos
+    //this.monitoringLogging();
+    //this.monitoringNewsletter();
+    setInterval(this.monitoringUnqfy(), 10000);
   }
 
   monitoringUnqfy() {
     if (this.enable) {
       this.monitorUnqfy();
-      setInterval(this.monitorUnqfy, 60000);
     }
   }
   monitoringLogging() {
@@ -58,7 +64,7 @@ class Monitor {
       .then(() => {
         if (!this.unqfy) {
           this.unqfy = true;
-          this.notifyDiscordUp("UNQfy");
+          this.notifyDiscordUp("UNQfy")
           this.save("data.json");
         }
       })
