@@ -1,7 +1,7 @@
 const rp = require("request-promise");
 
-// const BASE_URL = process.env.LOGGING_HOST + "/api"
-const BASE_URL = "http://localhost:3002/api"
+const BASE_URL = process.env.LOGGING_HOST + "/api"
+// const BASE_URL = "http://localhost:3002/api"
 
 const logging = (() => {
 

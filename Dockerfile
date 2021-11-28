@@ -1,4 +1,4 @@
-FROM node:10
+FROM node:14
 
 ENV UNQFY_HOST 'http://host.docker.internal:8080'
 ENV NEWSLETTER_HOST 'http://host.docker.internal:3001'
