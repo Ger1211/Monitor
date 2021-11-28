@@ -1,5 +1,3 @@
-const picklify = require("picklify");
-const fs = require("fs");
 const unqfy = require("./services/unqfy");
 const logging = require("./services/logging");
 const newsletter = require("./services/newsletter");
@@ -35,7 +33,6 @@ class Monitor {
       status = "On";
       this.startMonitoring();
     }
-    this.save("data.json");
     return status;
   }
 
@@ -48,19 +45,19 @@ class Monitor {
   monitoringUnqfy() {
     if (this.enable) {
       this.monitorUnqfy();
-      setInterval(this.monitorUnqfy.bind(this), 10000);
+      setTimeout(this.monitoringUnqfy.bind(this), 2000);
     }
   }
   monitoringLogging() {
     if (this.enable) {
       this.monitorLogging();
-      setInterval(this.monitorLogging.bind(this), 10000);
+      setTimeout(this.monitoringLogging.bind(this), 2000);
     }
   }
   monitoringNewsletter() {
     if (this.enable) {
       this.monitorNewsletter();
-      setInterval(this.monitorNewsletter.bind(this), 10000);
+      setTimeout(this.monitoringNewsletter.bind(this), 2000);
     }
   }
 
@@ -71,14 +68,12 @@ class Monitor {
         if (!this.unqfy) {
           this.unqfy = true;
           this.notifyDiscordUp("UNQfy");
-          this.save("data.json");
         }
       })
       .catch(() => {
         if (this.unqfy) {
           this.unqfy = false;
           this.notifyDiscordDown("UNQfy");
-          this.save("data.json");
         }
       });
   }
@@ -89,14 +84,12 @@ class Monitor {
         if (!this.logging) {
           this.logging = true;
           this.notifyDiscordUp("Logging");
-          this.save("data.json");
         }
       })
       .catch(() => {
         if (this.logging) {
           this.logging = false;
           this.notifyDiscordDown("Logging");
-          this.save("data.json");
         }
       });
   }
@@ -107,14 +100,12 @@ class Monitor {
         if (!this.newsletter) {
           this.newsletter = true;
           this.notifyDiscordUp("Newsletter");
-          this.save("data.json");
         }
       })
       .catch(() => {
         if (this.newsletter) {
           this.newsletter = false;
           this.notifyDiscordDown("Newsletter");
-          this.save("data.json");
         }
       });
   }
@@ -133,17 +124,6 @@ class Monitor {
         "HH:mm:SS"
       )}] El servicio ${service} ha dejado de funcionar`,
     });
-  }
-
-  save(filename) {
-    const serializedData = picklify.picklify(this);
-    fs.writeFileSync(filename, JSON.stringify(serializedData, null, 2));
-  }
-
-  static load(filename) {
-    const serializedData = fs.readFileSync(filename, { encoding: "utf-8" });
-    const classes = [Monitor];
-    return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 }
 

@@ -1,11 +1,10 @@
-const fs = require("fs");
 const monitorMod = require("./monitor");
 const { InvalidBodyError } = require("./errors/exceptions");
+let monitor;
 
-function getMonitor(filename = "data.json") {
-  let monitor = new monitorMod.Monitor();
-  if (fs.existsSync(filename)) {
-    monitor = monitorMod.Monitor.load(filename);
+function getMonitor() {
+  if(monitor === undefined) {
+    monitor = new monitorMod.Monitor();
   }
   return monitor;
 }
